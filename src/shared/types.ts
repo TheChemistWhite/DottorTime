@@ -151,11 +151,13 @@ export interface PreloadApi {
     calendar: (year: number, month: number) => Promise<CalendarMonth>
   }
   settings: {
-    get: () => Promise<DoctorSettings>
+    // null finché il medico non ha completato il wizard di primo avvio
+    get: () => Promise<DoctorSettings | null>
     update: (input: DoctorSettings) => Promise<DoctorSettings>
   }
   data: {
     export: () => Promise<ExportResult>
     import: (mode: ImportMode) => Promise<ImportResult>
+    resetAll: () => Promise<{ ok: boolean }>
   }
 }

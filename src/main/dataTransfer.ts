@@ -41,7 +41,10 @@ export async function exportData(): Promise<ExportResult> {
       schemaVersion: DATA_SCHEMA_VERSION,
       exportedAt: new Date().toISOString(),
       appVersion: app.getVersion(),
-      doctor: getDoctorSettings(),
+      // L'export non dovrebbe mai essere raggiungibile prima che l'onboarding
+      // sia completato (l'app resta bloccata su quel wizard), ma un fallback
+      // vuoto evita comunque un doctor null nel file esportato.
+      doctor: getDoctorSettings() ?? { name: '', specialization: '', initials: '' },
       patients: patients.map(rowToPatient),
       visits: visits.map(rowToVisit)
     }

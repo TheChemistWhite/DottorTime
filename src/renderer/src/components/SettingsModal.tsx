@@ -6,18 +6,21 @@ interface SettingsModalProps {
   onClose: () => void
   onDoctorUpdated: (doctor: DoctorSettings) => void
   onDataImported: () => void
+  onDataReset: () => void
 }
 
 export default function SettingsModal({
   doctor,
   onClose,
   onDoctorUpdated,
-  onDataImported
+  onDataImported,
+  onDataReset
 }: SettingsModalProps): React.JSX.Element {
   const [form, setForm] = useState<DoctorSettings>(doctor)
   const [savingDoctor, setSavingDoctor] = useState(false)
   const [importMode, setImportMode] = useState<ImportMode>('merge')
   const [busy, setBusy] = useState(false)
+  const [resetting, setResetting] = useState(false)
   const [message, setMessage] = useState<{ kind: 'ok' | 'error'; text: string } | null>(null)
 
   const saveDoctor = async (): Promise<void> => {
@@ -72,6 +75,25 @@ export default function SettingsModal({
       }
     } finally {
       setBusy(false)
+    }
+  }
+
+  const handleResetAll = async (): Promise<void> => {
+    if (
+      !window.confirm(
+        'Cancellare TUTTI i dati? Pazienti, visite e dati del medico verranno eliminati in modo permanente e non recuperabile. Al riavvio dell\'app verrà richiesto di reinserire i dati del medico. Continuare?'
+      )
+    ) {
+      return
+    }
+    setResetting(true)
+    setMessage(null)
+    try {
+      await window.api.data.resetAll()
+      onDataReset()
+    } catch (err) {
+      setMessage({ kind: 'error', text: err instanceof Error ? err.message : 'Errore.' })
+      setResetting(false)
     }
   }
 
@@ -159,6 +181,25 @@ export default function SettingsModal({
           </div>
           <button type="button" className="btn btn--secondary" onClick={handleImport} disabled={busy}>
             Importa dati…
+          </button>
+        </div>
+
+        <hr className="settings-divider" />
+
+        <div className="settings-section settings-section--danger">
+          <div className="settings-section__title settings-section__title--danger">Zona pericolosa</div>
+          <div className="settings-section__desc">
+            Elimina in modo permanente tutti i pazienti, le visite e i dati del medico salvati su
+            questo computer. Usalo per ripulire dati di prova prima di iniziare a usare l&rsquo;app
+            davvero. L&rsquo;operazione non è reversibile: se ti serve un backup, esportalo prima.
+          </div>
+          <button
+            type="button"
+            className="btn btn--danger"
+            onClick={handleResetAll}
+            disabled={resetting}
+          >
+            {resetting ? 'Cancellazione…' : 'Cancella tutti i dati'}
           </button>
         </div>
 

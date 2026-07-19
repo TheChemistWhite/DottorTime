@@ -50,9 +50,25 @@ const migrations: Migration[] = [
           specialization TEXT NOT NULL,
           initials TEXT NOT NULL
         );
-
-        INSERT OR IGNORE INTO settings (id, doctor_name, specialization, initials)
-        VALUES (1, 'Dr. Giuseppe Francione', 'Oftalmologia', 'GF');
+      `)
+      // Nessun dato del medico precaricato: la tabella settings resta vuota
+      // finché l'utente non completa il wizard di primo avvio (vedi renderer,
+      // componente OnboardingModal).
+    }
+  },
+  {
+    version: 2,
+    run: (db) => {
+      // Svuota completamente il database. Questa migrazione gira una volta
+      // sola per ogni installazione (tracciata da PRAGMA user_version), quindi
+      // non tocca i dati che l'utente inserirà dopo. Serve a ripulire i DB già
+      // esistenti (creati durante lo sviluppo/test) da pazienti/visite di
+      // prova e dal medico precompilato "Dr. Giuseppe Francione", così anche
+      // le installazioni pre-esistenti ripartono dal wizard di primo avvio.
+      db.exec(`
+        DELETE FROM visits;
+        DELETE FROM patients;
+        DELETE FROM settings;
       `)
     }
   }

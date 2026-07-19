@@ -256,6 +256,13 @@
   font-size: 13.5px;
   padding: 0 18px;
 }
+.btn--danger {
+  background: oklch(52% 0.18 25);
+  color: white;
+}
+.btn--danger:hover:not(:disabled) {
+  filter: brightness(1.06);
+}
 
 /* ---------- Cards ---------- */
 .card {
@@ -830,4 +837,8 @@
   font-weight: 700;
   color: var(--text-heading);
   margin-bottom: 16px;
+}
+.modal-overlay--onboarding {
+  background: var(--bg-app);
+  z-index: 100;
 }

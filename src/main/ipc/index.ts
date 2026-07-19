@@ -16,7 +16,7 @@ import {
   getAppointmentsForDay,
   getCalendarMonth
 } from '../db/visits'
-import { getDoctorSettings, updateDoctorSettings } from '../db/settings'
+import { getDoctorSettings, updateDoctorSettings, resetAllData } from '../db/settings'
 import { exportData, importData } from '../dataTransfer'
 
 export function registerIpcHandlers(): void {
@@ -60,4 +60,9 @@ export function registerIpcHandlers(): void {
   ipcMain.handle(IPC.dataExport, () => exportData())
 
   ipcMain.handle(IPC.dataImport, (_e, mode: ImportMode) => importData(mode))
+
+  ipcMain.handle(IPC.dataResetAll, () => {
+    resetAllData()
+    return { ok: true }
+  })
 }

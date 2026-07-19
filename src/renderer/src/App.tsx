@@ -4,24 +4,22 @@ import TitleBar from './components/TitleBar'
 import Sidebar from './components/Sidebar'
 import PatientFormModal from './components/PatientFormModal'
 import SettingsModal from './components/SettingsModal'
+import OnboardingModal from './components/OnboardingModal'
 import Dashboard from './screens/Dashboard'
 import PatientDetail from './screens/PatientDetail'
 import NewVisit from './screens/NewVisit'
 
 export type Screen = 'dashboard' | 'patient' | 'newvisit'
 
-const FALLBACK_DOCTOR: DoctorSettings = {
-  name: 'Dr. Giuseppe Francione',
-  specialization: 'Oftalmologia',
-  initials: 'GF'
-}
-
 export default function App(): React.JSX.Element {
   const [screen, setScreen] = useState<Screen>('dashboard')
   const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [patients, setPatients] = useState<PatientSummary[]>([])
-  const [doctor, setDoctor] = useState<DoctorSettings>(FALLBACK_DOCTOR)
+  // null = nessun dato medico salvato ancora (primo avvio, o dopo un reset
+  // completo dei dati): finché resta null viene mostrato solo l'onboarding.
+  const [doctor, setDoctor] = useState<DoctorSettings | null>(null)
+  const [doctorLoaded, setDoctorLoaded] = useState(false)
   const [showNewPatientModal, setShowNewPatientModal] = useState(false)
   const [editingPatient, setEditingPatient] = useState<Patient | null>(null)
   const [editingVisit, setEditingVisit] = useState<Visit | null>(null)
@@ -29,7 +27,10 @@ export default function App(): React.JSX.Element {
   const [refreshKey, setRefreshKey] = useState(0)
 
   useEffect(() => {
-    window.api.settings.get().then(setDoctor)
+    window.api.settings.get().then((d) => {
+      setDoctor(d)
+      setDoctorLoaded(true)
+    })
   }, [])
 
   useEffect(() => {
@@ -80,6 +81,31 @@ export default function App(): React.JSX.Element {
   const handleNewVisitCancel = (): void => {
     setEditingVisit(null)
     navigate(selectedPatientId ? 'patient' : 'dashboard', selectedPatientId ?? undefined)
+  }
+
+  // Dopo "Cancella tutti i dati" (Impostazioni) l'app torna esattamente allo
+  // stato di primo avvio: doctor null riporta l'onboarding in primo piano.
+  const handleDataReset = (): void => {
+    setShowSettingsModal(false)
+    setShowNewPatientModal(false)
+    setEditingPatient(null)
+    setEditingVisit(null)
+    setSelectedPatientId(null)
+    setPatients([])
+    setSearchQuery('')
+    setScreen('dashboard')
+    setDoctor(null)
+    setRefreshKey((k) => k + 1)
+  }
+
+  // Attesa della prima lettura di window.api.settings.get(): evita un flash
+  // dell'onboarding prima di sapere se il medico è già configurato.
+  if (!doctorLoaded) {
+    return <div className="app-shell" />
+  }
+
+  if (!doctor) {
+    return <OnboardingModal onCompleted={setDoctor} />
   }
 
   return (
@@ -150,6 +176,7 @@ export default function App(): React.JSX.Element {
           onClose={() => setShowSettingsModal(false)}
           onDoctorUpdated={setDoctor}
           onDataImported={() => setRefreshKey((k) => k + 1)}
+          onDataReset={handleDataReset}
         />
       )}
     </div>

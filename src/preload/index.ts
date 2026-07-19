@@ -40,7 +40,8 @@ const api: PreloadApi = {
   },
   data: {
     export: () => ipcRenderer.invoke(IPC.dataExport),
-    import: (mode: ImportMode) => ipcRenderer.invoke(IPC.dataImport, mode)
+    import: (mode: ImportMode) => ipcRenderer.invoke(IPC.dataImport, mode),
+    resetAll: () => ipcRenderer.invoke(IPC.dataResetAll)
   }
 }
 

@@ -8,10 +8,10 @@
 
 Anagrafica pazienti · appuntamenti · storico visite e note cliniche — tutto in locale, senza cloud.
 
-![Platform](https://img.shields.io/badge/piattaforma-Windows%20%7C%20macOS%20%7C%20Linux-6a615b)
-![Stack](https://img.shields.io/badge/stack-Electron%20%7C%20React%20%7C%20TypeScript-c16048)
-![Database](https://img.shields.io/badge/dati-SQLite%20locale-c16048)
-![License](https://img.shields.io/badge/licenza-MIT-6a615b)
+![Platform](docs/badges/platform.png)
+![Stack](docs/badges/stack.png)
+![Database](docs/badges/database.png)
+![License](docs/badges/license.png)
 
 </div>
 

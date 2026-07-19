@@ -27,26 +27,32 @@ export default function Dashboard({
   const [stats, setStats] = useState<DashboardStats | null>(null)
   const [upcoming, setUpcoming] = useState<UpcomingAppointment[]>([])
   const [month, setMonth] = useState<CalendarMonth | null>(null)
+  const [viewDate, setViewDate] = useState<Date>(() => {
+    const n = new Date()
+    return new Date(n.getFullYear(), n.getMonth(), 1)
+  })
   const [selectedDay, setSelectedDay] = useState<string | null>(null)
   const [dayAppointments, setDayAppointments] = useState<UpcomingAppointment[]>([])
   const [loadingDay, setLoadingDay] = useState(false)
 
   useEffect(() => {
-    const now = new Date()
-    Promise.all([
-      window.api.dashboard.stats(),
-      window.api.dashboard.appointments(6),
-      window.api.dashboard.calendar(now.getFullYear(), now.getMonth() + 1)
-    ]).then(([s, a, m]) => {
-      setStats(s)
-      setUpcoming(a)
-      setMonth(m)
-    })
+    Promise.all([window.api.dashboard.stats(), window.api.dashboard.appointments(6)]).then(
+      ([s, a]) => {
+        setStats(s)
+        setUpcoming(a)
+      }
+    )
     // Deselezioniamo il giorno del calendario quando i dati cambiano (nuova
     // visita salvata altrove, import dati…) per evitare di mostrare una
     // vista del giorno ormai non aggiornata.
     setSelectedDay(null)
   }, [refreshKey])
+
+  useEffect(() => {
+    window.api.dashboard
+      .calendar(viewDate.getFullYear(), viewDate.getMonth() + 1)
+      .then((m) => setMonth(m))
+  }, [viewDate, refreshKey])
 
   useEffect(() => {
     if (!selectedDay) return
@@ -56,6 +62,21 @@ export default function Dashboard({
       setLoadingDay(false)
     })
   }, [selectedDay, refreshKey])
+
+  const changeMonth = (delta: number): void => {
+    setViewDate((d) => new Date(d.getFullYear(), d.getMonth() + delta, 1))
+    setSelectedDay(null)
+  }
+
+  const goToToday = (): void => {
+    const n = new Date()
+    setViewDate(new Date(n.getFullYear(), n.getMonth(), 1))
+    setSelectedDay(null)
+  }
+
+  const now = new Date()
+  const isCurrentMonth =
+    viewDate.getFullYear() === now.getFullYear() && viewDate.getMonth() === now.getMonth()
 
   // "Dr. Giuseppe Francione" -> "Dr. Francione", coerente col mockup che
   // saluta con titolo + cognome.
@@ -106,7 +127,15 @@ export default function Dashboard({
       </div>
 
       <div className="dashboard-grid">
-        <CalendarCard month={month} selectedDay={selectedDay} onSelectDay={handleSelectDay} />
+        <CalendarCard
+          month={month}
+          selectedDay={selectedDay}
+          onSelectDay={handleSelectDay}
+          onPrevMonth={() => changeMonth(-1)}
+          onNextMonth={() => changeMonth(1)}
+          onToday={goToToday}
+          isCurrentMonth={isCurrentMonth}
+        />
         {selectedDay ? (
           <AppointmentsCard
             title={formatDateLongFromIso(selectedDay)}

@@ -26,3 +26,6 @@ Desktop.ini
 
 # File di test residuo (vuoto, puoi cancellarlo manualmente da Esplora File)
 Design/_casetest.txt
+
+# Guida di riferimento per lo sviluppo: resta locale, non va su GitHub
+CLAUDE.md

@@ -4,21 +4,54 @@ interface CalendarCardProps {
   month: CalendarMonth | null
   selectedDay: string | null
   onSelectDay: (dateIso: string) => void
+  onPrevMonth: () => void
+  onNextMonth: () => void
+  onToday: () => void
+  isCurrentMonth: boolean
 }
 
 export default function CalendarCard({
   month,
   selectedDay,
-  onSelectDay
+  onSelectDay,
+  onPrevMonth,
+  onNextMonth,
+  onToday,
+  isCurrentMonth
 }: CalendarCardProps): React.JSX.Element {
   return (
     <div className="card">
       <div className="calendar-head">
-        <div className="calendar-head__label">{month?.label ?? ''}</div>
-        <div className="calendar-head__legend">
-          Legenda:
-          <span className="calendar-head__legend-dot" />
-          appuntamenti
+        <div className="calendar-nav">
+          <button
+            type="button"
+            className="calendar-nav__btn"
+            onClick={onPrevMonth}
+            aria-label="Mese precedente"
+          >
+            ‹
+          </button>
+          <div className="calendar-head__label">{month?.label ?? ''}</div>
+          <button
+            type="button"
+            className="calendar-nav__btn"
+            onClick={onNextMonth}
+            aria-label="Mese successivo"
+          >
+            ›
+          </button>
+        </div>
+        <div className="calendar-head__right">
+          {!isCurrentMonth && (
+            <button type="button" className="calendar-nav__today" onClick={onToday}>
+              Oggi
+            </button>
+          )}
+          <div className="calendar-head__legend">
+            Legenda:
+            <span className="calendar-head__legend-dot" />
+            appuntamenti
+          </div>
         </div>
       </div>
       <div className="calendar-weekdays">

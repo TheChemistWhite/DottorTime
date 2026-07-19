@@ -25,15 +25,15 @@ function deriveInitials(name: string): string {
 // Wizard di primo avvio: mostrato quando non esiste ancora alcun dato medico
 // nel database (nessuna riga in tabella settings). Non è chiudibile: l'app
 // resta bloccata qui finché non viene salvato almeno nome e specializzazione.
+// Le iniziali per l'avatar in sidebar non si chiedono esplicitamente: si
+// derivano automaticamente dal nome e cognome inseriti.
 export default function OnboardingModal({ onCompleted }: OnboardingModalProps): React.JSX.Element {
   const [form, setForm] = useState<DoctorSettings>(emptyForm)
-  const [initialsTouched, setInitialsTouched] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const setName = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const name = e.target.value
-    setForm((f) => ({ ...f, name, initials: initialsTouched ? f.initials : deriveInitials(name) }))
+    setForm((f) => ({ ...f, name: e.target.value }))
   }
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
@@ -48,7 +48,7 @@ export default function OnboardingModal({ onCompleted }: OnboardingModalProps): 
       const saved = await window.api.settings.update({
         name: form.name.trim(),
         specialization: form.specialization.trim(),
-        initials: (form.initials || deriveInitials(form.name)).trim().toUpperCase() || '??'
+        initials: deriveInitials(form.name) || '??'
       })
       onCompleted(saved)
     } catch (err) {
@@ -85,20 +85,6 @@ export default function OnboardingModal({ onCompleted }: OnboardingModalProps): 
               onChange={(e) => setForm((f) => ({ ...f, specialization: e.target.value }))}
             />
           </div>
-          <div style={{ marginBottom: 8 }}>
-            <div className="form-label">Iniziali (avatar sidebar)</div>
-            <input
-              className="form-input"
-              style={{ width: 100 }}
-              maxLength={3}
-              value={form.initials}
-              onChange={(e) => {
-                setInitialsTouched(true)
-                setForm((f) => ({ ...f, initials: e.target.value.toUpperCase() }))
-              }}
-            />
-          </div>
-
           {error && <div className="form-error">{error}</div>}
 
           <div className="form-actions">

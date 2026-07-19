@@ -1,12 +1,14 @@
 appId: com.dottortime.app
 productName: DottorTime
-# Non pubblicare mai automaticamente una GitHub Release: il workflow CI
-# produce solo artifact scaricabili dalla pagina della run (vedi
-# .github/workflows/build.yml). Senza questa riga, electron-builder tenta la
-# pubblicazione in automatico quando rileva GH_TOKEN + una build su tag,
-# fallendo con 403 perché il GITHUB_TOKEN di default non ha i permessi per
-# creare release.
-publish: never
+# NOTA sulla pubblicazione: niente publish/GitHub release automatiche, il
+# workflow CI produce solo artifact scaricabili dalla run (vedi
+# .github/workflows/build.yml). Questo NON va impostato qui come
+# `publish: never` nella config: in electron-builder 24.13.3 quella stringa,
+# combinata con GH_TOKEN presente durante una build su tag, va in crash
+# ("Cannot find module 'electron-publisher-never'") nella risoluzione della
+# config di auto-update. La disattivazione va invece fatta passando
+# `--publish=never` come flag da riga di comando (vedi script "dist:*" in
+# package.json), che segue un percorso di codice diverso e funziona.
 directories:
   buildResources: build
   output: dist

@@ -52,6 +52,15 @@ jobs:
 
       - name: Build installer (${{ matrix.script }})
         run: npm run ${{ matrix.script }}
+        env:
+          # electron-builder scarica alcuni binari di supporto dalle release
+          # GitHub dei suoi repo; senza un token le chiamate anonime alle API
+          # GitHub vanno facilmente in rate-limit sui runner condivisi.
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Evita che su macOS electron-builder cerchi automaticamente un
+          # certificato di firma nel keychain (che sul runner non esiste):
+          # l'app resta semplicemente non firmata, come già previsto.
+          CSC_IDENTITY_AUTO_DISCOVERY: false
 
       - name: Carica gli artefatti
         uses: actions/upload-artifact@v4

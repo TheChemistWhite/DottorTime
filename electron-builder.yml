@@ -1,5 +1,12 @@
 appId: com.dottortime.app
 productName: DottorTime
+# Non pubblicare mai automaticamente una GitHub Release: il workflow CI
+# produce solo artifact scaricabili dalla pagina della run (vedi
+# .github/workflows/build.yml). Senza questa riga, electron-builder tenta la
+# pubblicazione in automatico quando rileva GH_TOKEN + una build su tag,
+# fallendo con 403 perché il GITHUB_TOKEN di default non ha i permessi per
+# creare release.
+publish: never
 directories:
   buildResources: build
   output: dist

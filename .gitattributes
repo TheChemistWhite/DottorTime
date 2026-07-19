@@ -1,0 +1,13 @@
+# Normalizza i fine riga: nel repository restano sempre LF, indipendentemente
+# dal sistema operativo o dall'editor usato per modificare i file. Git per
+# Windows continua a mostrare CRLF nella copia di lavoro locale (comportamento
+# normale con core.autocrlf=true), ma i commit restano puliti e senza rumore
+# dovuto solo a un cambio di fine riga.
+* text=auto eol=lf
+
+# I binari vanno lasciati sempre così come sono.
+*.png binary
+*.ico binary
+*.icns binary
+*.jpg binary
+*.jpeg binary

@@ -1,0 +1,28 @@
+# Dipendenze
+node_modules/
+
+# Build output
+out/
+dist/
+dist-electron/
+
+# Log
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Env locali (nessun segreto nel progetto, ma per sicurezza)
+.env
+.env.local
+
+# File di test residuo (vuoto, puoi cancellarlo manualmente da Esplora File)
+Design/_casetest.txt

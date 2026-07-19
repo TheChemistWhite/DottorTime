@@ -1,0 +1,149 @@
+<svg width="1280" height="800" viewBox="0 0 1280 800" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', -apple-system, Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="accentGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e78a45"/>
+      <stop offset="100%" stop-color="#c16048"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1280" height="800" fill="#fbf8f4"/>
+
+  <!-- Titlebar -->
+  <rect x="0" y="0" width="1280" height="46" fill="#f7f1eb"/>
+  <line x1="0" y1="46" x2="1280" y2="46" stroke="#e3d8d2" stroke-width="1"/>
+  <text x="20" y="28" font-size="13" font-weight="700" fill="#51453e">Agenda — Dr. Giuseppe Francione</text>
+  <text x="1260" y="28" font-size="12" fill="#796f69" text-anchor="end">ven 19 lug 2026</text>
+
+  <!-- Sidebar -->
+  <rect x="0" y="46" width="200" height="754" fill="#f8eee7"/>
+  <line x1="200" y1="46" x2="200" y2="800" stroke="#e3d8d2" stroke-width="1"/>
+
+  <rect x="14" y="62" width="34" height="34" rx="9" fill="url(#accentGrad2)"/>
+  <text x="31" y="84" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">GF</text>
+  <text x="58" y="80" font-size="12" font-weight="700" fill="#312620">Dr. G. Francione</text>
+  <text x="58" y="94" font-size="10" fill="#796f69">Oftalmologia</text>
+
+  <text x="14" y="122" font-size="10" font-weight="700" letter-spacing="0.5" fill="#827872">MENU</text>
+
+  <circle cx="24" cy="143" r="4" fill="#b9aba2"/>
+  <text x="34" y="147" font-size="12.5" font-weight="600" fill="#433831">Dashboard</text>
+
+  <rect x="12" y="158" width="176" height="26" rx="8" fill="#f7d6ca"/>
+  <circle cx="24" cy="171" r="4" fill="#ba5a42"/>
+  <text x="34" y="175" font-size="12.5" font-weight="600" fill="#8f331c">Pazienti</text>
+
+  <circle cx="24" cy="199" r="4" fill="#b9aba2"/>
+  <text x="34" y="203" font-size="12.5" font-weight="600" fill="#433831">Nuova visita</text>
+
+  <text x="14" y="230" font-size="10" font-weight="700" letter-spacing="0.5" fill="#827872">PAZIENTI RECENTI</text>
+
+  <g font-size="11.5" fill="#3c302a">
+    <g transform="translate(12,240)">
+      <rect width="176" height="24" rx="8" fill="#ecded5"/>
+      <rect x="6" y="2" width="20" height="20" rx="6" fill="#efd9cd"/>
+      <text x="16" y="16" font-size="9" font-weight="700" fill="#5f3e33" text-anchor="middle">MB</text>
+      <text x="34" y="15" font-weight="600">Maria Bianchi</text>
+    </g>
+    <g transform="translate(12,268)">
+      <rect x="6" y="2" width="20" height="20" rx="6" fill="#efd9cd"/>
+      <text x="16" y="16" font-size="9" font-weight="700" fill="#5f3e33" text-anchor="middle">LV</text>
+      <text x="34" y="15">Luca Verdi</text>
+    </g>
+    <g transform="translate(12,296)">
+      <rect x="6" y="2" width="20" height="20" rx="6" fill="#efd9cd"/>
+      <text x="16" y="16" font-size="9" font-weight="700" fill="#5f3e33" text-anchor="middle">AR</text>
+      <text x="34" y="15">Anna Rossi</text>
+    </g>
+    <g transform="translate(12,324)">
+      <rect x="6" y="2" width="20" height="20" rx="6" fill="#efd9cd"/>
+      <text x="16" y="16" font-size="9" font-weight="700" fill="#5f3e33" text-anchor="middle">PC</text>
+      <text x="34" y="15">Paolo Colombo</text>
+    </g>
+    <g transform="translate(12,352)">
+      <rect x="6" y="2" width="20" height="20" rx="6" fill="#efd9cd"/>
+      <text x="16" y="16" font-size="9" font-weight="700" fill="#5f3e33" text-anchor="middle">GF</text>
+      <text x="34" y="15">Giulia Ferrari</text>
+    </g>
+    <g transform="translate(12,380)">
+      <rect x="6" y="2" width="20" height="20" rx="6" fill="#efd9cd"/>
+      <text x="16" y="16" font-size="9" font-weight="700" fill="#5f3e33" text-anchor="middle">ME</text>
+      <text x="34" y="15">Marco Esposito</text>
+    </g>
+  </g>
+
+  <text x="14" y="778" font-size="10.5" fill="#827872">v1.0 · Studio Oculistico</text>
+  <text x="176" y="778" font-size="13" fill="#827872">⚙</text>
+
+  <!-- Patient header -->
+  <rect x="226" y="76" width="56" height="56" rx="14" fill="url(#accentGrad2)"/>
+  <text x="254" y="112" font-size="19" font-weight="700" fill="#ffffff" text-anchor="middle">MB</text>
+  <text x="298" y="100" font-size="19" font-weight="700" fill="#2c211b">Maria Bianchi</text>
+  <text x="298" y="120" font-size="12.5" fill="#6a615b">58 anni · +39 340 112 3344 · Glaucoma cronico</text>
+
+  <rect x="964" y="90" width="150" height="34" rx="9" fill="#ffffff" stroke="#e0d5ce"/>
+  <text x="1039" y="111" font-size="12" font-weight="600" fill="#433831" text-anchor="middle">Modifica paziente</text>
+  <rect x="1128" y="90" width="126" height="34" rx="9" fill="#c16048"/>
+  <text x="1191" y="111" font-size="12" font-weight="600" fill="#ffffff" text-anchor="middle">+ Nuova visita</text>
+
+  <!-- Anagrafica card -->
+  <rect x="226" y="152" width="290" height="330" rx="12" fill="#ffffff" stroke="#e8dfda"/>
+  <text x="248" y="182" font-size="13" font-weight="700" fill="#312620">Anagrafica</text>
+
+  <g font-size="11.5">
+    <text x="248" y="212" fill="#706761">Data di nascita</text>
+    <text x="494" y="212" fill="#362b25" font-weight="600" text-anchor="end">12/03/1968</text>
+    <text x="248" y="238" fill="#706761">Telefono</text>
+    <text x="494" y="238" fill="#362b25" font-weight="600" text-anchor="end">+39 340 112 3344</text>
+    <text x="248" y="264" fill="#706761">Email</text>
+    <text x="494" y="264" fill="#362b25" font-weight="600" text-anchor="end">maria.bianchi@example.com</text>
+    <text x="248" y="290" fill="#706761">Indirizzo</text>
+    <text x="494" y="290" fill="#362b25" font-weight="600" text-anchor="end">Via Roma 12, Milano</text>
+    <text x="248" y="316" fill="#706761">Diagnosi principale</text>
+    <text x="494" y="316" fill="#362b25" font-weight="600" text-anchor="end">Glaucoma cronico</text>
+    <text x="248" y="342" fill="#706761">Ultima visita</text>
+    <text x="494" y="342" fill="#362b25" font-weight="600" text-anchor="end">05/07/2026</text>
+  </g>
+
+  <!-- Storico visite card -->
+  <rect x="536" y="152" width="718" height="600" rx="12" fill="#ffffff" stroke="#e8dfda"/>
+  <text x="558" y="182" font-size="13" font-weight="700" fill="#312620">Storico visite e note cliniche</text>
+
+  <!-- Visit 1 -->
+  <g transform="translate(558,202)">
+    <rect width="674" height="180" rx="12" fill="none" stroke="#ebe3dd"/>
+    <text x="18" y="30" font-size="13" font-weight="700" fill="#312620">05/07/2026</text>
+    <rect x="476" y="14" width="120" height="24" rx="6" fill="#fee5dc"/>
+    <text x="536" y="30" font-size="11" font-weight="600" fill="#b05139" text-anchor="middle">Controllo glaucoma</text>
+    <text x="656" y="30" font-size="10.5" font-weight="600" fill="#706761" text-anchor="end">Modifica</text>
+
+    <rect x="18" y="50" width="318" height="46" rx="8" fill="#f8f4f1"/>
+    <text x="30" y="66" font-size="9.5" letter-spacing="0.3" fill="#796f69">ACUITÀ VISIVA OD / OS</text>
+    <text x="30" y="84" font-size="13" font-weight="600" fill="#362b25">8/10 / 7/10</text>
+
+    <rect x="348" y="50" width="326" height="46" rx="8" fill="#f8f4f1"/>
+    <text x="360" y="66" font-size="9.5" letter-spacing="0.3" fill="#796f69">PRESSIONE (PIO) OD / OS</text>
+    <text x="360" y="84" font-size="13" font-weight="600" fill="#362b25">19 / 21 mmHg</text>
+
+    <text x="18" y="118" font-size="11.5" fill="#49403b">Pressione lievemente elevata OS. Confermata terapia con</text>
+    <text x="18" y="136" font-size="11.5" fill="#49403b">colliri ipotonizzanti, controllo tra 3 mesi.</text>
+  </g>
+
+  <!-- Visit 2 -->
+  <g transform="translate(558,398)">
+    <rect width="674" height="150" rx="12" fill="none" stroke="#ebe3dd"/>
+    <text x="18" y="30" font-size="13" font-weight="700" fill="#312620">02/04/2026</text>
+    <rect x="464" y="14" width="132" height="24" rx="6" fill="#fee5dc"/>
+    <text x="530" y="30" font-size="11" font-weight="600" fill="#b05139" text-anchor="middle">Controllo di routine</text>
+    <text x="656" y="30" font-size="10.5" font-weight="600" fill="#706761" text-anchor="end">Modifica</text>
+
+    <rect x="18" y="50" width="318" height="46" rx="8" fill="#f8f4f1"/>
+    <text x="30" y="66" font-size="9.5" letter-spacing="0.3" fill="#796f69">ACUITÀ VISIVA OD / OS</text>
+    <text x="30" y="84" font-size="13" font-weight="600" fill="#362b25">9/10 / 8/10</text>
+
+    <rect x="348" y="50" width="326" height="46" rx="8" fill="#f8f4f1"/>
+    <text x="360" y="66" font-size="9.5" letter-spacing="0.3" fill="#796f69">PRESSIONE (PIO) OD / OS</text>
+    <text x="360" y="84" font-size="13" font-weight="600" fill="#362b25">17 / 18 mmHg</text>
+
+    <text x="18" y="118" font-size="11.5" fill="#49403b">Quadro stabile rispetto alla visita precedente.</text>
+  </g>
+</svg>

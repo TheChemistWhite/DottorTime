@@ -1,0 +1,70 @@
+/*
+ * Design token estratti dal mockup (Design/agenda-visite-medico).
+ * Non hard-codare valori oklch nei componenti: usare sempre queste variabili.
+ */
+:root {
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+
+  /* Sfondo pagina esterna alla finestra (gradiente caldo) */
+  --bg-outer-1: oklch(93% 0.025 65);
+  --bg-outer-2: oklch(87% 0.03 50);
+  --bg-outer-3: oklch(80% 0.035 40);
+
+  /* Superfici */
+  --bg-app: oklch(98% 0.006 70);
+  --bg-titlebar: oklch(96% 0.01 65);
+  --bg-sidebar: oklch(95.5% 0.014 55);
+  --bg-card: #ffffff;
+  --bg-field-subtle: oklch(97% 0.006 70);
+  --bg-input: oklch(99% 0.004 70);
+  --bg-hover-row: oklch(96% 0.015 55);
+  --bg-nav-active: oklch(90% 0.04 40);
+  --bg-patient-row-active: oklch(91% 0.02 55);
+  --bg-badge: oklch(94% 0.03 40);
+  --bg-avatar-sm: oklch(90% 0.03 50);
+
+  /* Bordi */
+  --border-titlebar: oklch(89% 0.015 55);
+  --border-card: oklch(91% 0.012 55);
+  --border-input: oklch(88% 0.015 55);
+  --border-visit-card: oklch(92% 0.012 55);
+  --border-divider: oklch(93% 0.01 55);
+
+  /* Testo */
+  --text-heading: oklch(26% 0.02 50);
+  --text-strong: oklch(28% 0.02 50);
+  --text-value: oklch(30% 0.02 50);
+  --text-body: oklch(32% 0.02 50);
+  --text-muted-strong: oklch(35% 0.02 50);
+  --text-notes: oklch(38% 0.015 55);
+  --text-titlebar: oklch(40% 0.02 50);
+  --text-label: oklch(45% 0.02 50);
+  --text-secondary: oklch(50% 0.015 55);
+  --text-field-label: oklch(52% 0.015 55);
+  --text-muted: oklch(55% 0.015 55);
+  --text-section-label: oklch(58% 0.015 55);
+  --text-nav-dot-inactive: oklch(75% 0.02 55);
+  --text-on-accent: #ffffff;
+
+  /* Colore accento/brand (arancione bruciato caldo) */
+  --accent: oklch(60% 0.13 35);
+  --accent-strong-text: oklch(45% 0.13 35);
+  --accent-badge-text: oklch(55% 0.13 35);
+  --accent-dot-active: oklch(58% 0.13 35);
+  --accent-grad-start: oklch(72% 0.14 55);
+  --accent-grad-end: oklch(60% 0.13 35);
+  --accent-gradient: linear-gradient(135deg, var(--accent-grad-start), var(--accent-grad-end));
+
+  --scrollbar-thumb: oklch(85% 0.02 55);
+
+  --radius-window: 18px;
+  --radius-card: 14px;
+  --radius-input: 9px;
+  --radius-button: 10px;
+  --radius-avatar-lg: 16px;
+  --radius-avatar-md: 10px;
+  --radius-avatar-sm: 6px;
+
+  --shadow-window: 0 30px 60px -15px rgba(50, 30, 10, 0.35);
+}

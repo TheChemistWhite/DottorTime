@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<style>
+  @font-face { font-family: 'SFP'; src: local('Helvetica Neue'); }
+  body { margin: 0; }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-thumb { background: oklch(85% 0.02 55); border-radius: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+</style>
+</helmet>
+
+<div style="width:100%; min-height:100vh; display:flex; align-items:center; justify-content:center; background: radial-gradient(120% 120% at 20% 10%, oklch(93% 0.025 65) 0%, oklch(87% 0.03 50) 55%, oklch(80% 0.035 40) 100%); padding: 40px; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;">
+
+  <div style="width: 1440px; height: 900px; max-width: 100%; border-radius: 18px; overflow: hidden; background: oklch(98% 0.006 70); box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset, 0 30px 60px -15px rgba(50,30,10,0.35), 0 0 0 1px oklch(70% 0.03 50 / 0.3); display: flex; flex-direction: column;">
+
+    <!-- Titlebar -->
+    <div style="height: 52px; flex-shrink: 0; display:flex; align-items:center; gap: 16px; padding: 0 18px; background: oklch(96% 0.01 65); border-bottom: 1px solid oklch(89% 0.015 55);">
+      <div style="display:flex; gap:8px;">
+        <div style="width:12px; height:12px; border-radius:50%; background:#ff5f57;"></div>
+        <div style="width:12px; height:12px; border-radius:50%; background:#febc2e;"></div>
+        <div style="width:12px; height:12px; border-radius:50%; background:#28c840;"></div>
+      </div>
+      <div style="font-size:13px; font-weight:600; color: oklch(40% 0.02 50); letter-spacing: 0.1px;">Agenda — Dr. Giuseppe Francione</div>
+      <div style="flex:1;"></div>
+      <div style="font-size:12px; color: oklch(55% 0.015 55);">{{ todayLabel }}</div>
+    </div>
+
+    <div style="flex:1; display:flex; min-height:0;">
+
+      <!-- Sidebar -->
+      <div style="width: 220px; flex-shrink:0; background: oklch(95.5% 0.014 55); border-right: 1px solid oklch(89% 0.015 55); display:flex; flex-direction:column; padding: 18px 12px;">
+        <div style="display:flex; align-items:center; gap:10px; padding: 4px 8px 20px;">
+          <div style="width:38px; height:38px; border-radius:10px; background: linear-gradient(135deg, oklch(72% 0.14 55), oklch(60% 0.13 35)); display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700; color:white;">GF</div>
+          <div>
+            <div style="font-size:13px; font-weight:700; color: oklch(28% 0.02 50);">Dr. G. Francione</div>
+            <div style="font-size:11px; color: oklch(55% 0.015 55);">Oftalmologia</div>
+          </div>
+        </div>
+
+        <div style="font-size:11px; font-weight:700; color: oklch(58% 0.015 55); text-transform:uppercase; letter-spacing:0.5px; padding: 6px 10px 6px;">Menu</div>
+        <div onClick="{{ () => navigate('dashboard') }}" style="{{ navStyle('dashboard') }}">
+          <div style="{{ navDotStyle('dashboard') }}"></div>
+          <span>Dashboard</span>
+        </div>
+        <div onClick="{{ () => navigate('patient', patients[0].id) }}" style="{{ screenGroupStyle(['patient']) }}">
+          <div style="{{ navDotStyle('patient') }}"></div>
+          <span>Pazienti</span>
+        </div>
+        <div onClick="{{ () => navigate('newvisit', selectedPatient ? selectedPatient.id : patients[0].id) }}" style="{{ navStyle('newvisit') }}">
+          <div style="{{ navDotStyle('newvisit') }}"></div>
+          <span>Nuova visita</span>
+        </div>
+
+        <div style="font-size:11px; font-weight:700; color: oklch(58% 0.015 55); text-transform:uppercase; letter-spacing:0.5px; padding: 18px 10px 6px;">Pazienti recenti</div>
+        <div style="display:flex; flex-direction:column; gap: 2px; overflow-y:auto;">
+          <sc-for list="{{ patients }}" as="p" hint-placeholder-count="6">
+            <div onClick="{{ () => navigate('patient', p.id) }}" style="{{ patientRowStyle(p.id) }}">
+              <div style="width:22px; height:22px; border-radius:6px; background: oklch(90% 0.03 50); color: oklch(40% 0.05 40); font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0;">{{ p.initials }}</div>
+              <span style="font-size:12.5px; color: oklch(32% 0.02 50); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ p.name }}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="flex:1;"></div>
+        <div style="font-size:11px; color: oklch(58% 0.015 55); padding: 10px;">v1.0 · Studio Oculistico</div>
+      </div>
+
+      <!-- Main content -->
+      <div style="flex:1; min-width:0; overflow-y:auto; background: oklch(98% 0.006 70);">
+
+        <!-- DASHBOARD -->
+        <sc-if value="{{ isDashboard }}" hint-placeholder-val="{{ true }}">
+          <div style="padding: 28px 32px 40px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 22px;">
+              <div style="flex:1; min-width:0;">
+                <div style="font-size: 22px; font-weight: 700; color: oklch(26% 0.02 50); white-space:nowrap;">Buongiorno, Dr. Francione</div>
+                <div style="font-size: 13.5px; color: oklch(50% 0.015 55); margin-top: 3px; white-space:nowrap;">{{ todayFull }}</div>
+              </div>
+              <div style="display:flex; gap:10px; align-items:center; flex-shrink:0;">
+                <input type="text" placeholder="Cerca paziente…" value="{{ searchQuery }}" onChange="{{ onSearchChange }}" style="width: 230px; height:38px; border-radius:10px; border:1px solid oklch(88% 0.015 55); background: white; padding: 0 14px; font-size:13px; color: oklch(30% 0.02 50); outline:none;" />
+                <button onClick="{{ () => navigate('newvisit', patients[0].id) }}" style="height:38px; padding: 0 16px; border-radius:10px; border:none; background: oklch(60% 0.13 35); color:white; font-size:13px; font-weight:600; cursor:pointer;">+ Nuova visita</button>
+              </div>
+            </div>
+
+            <!-- Stat cards -->
+            <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px;">
+              <div style="background:white; border:1px solid oklch(91% 0.012 55); border-radius:14px; padding: 16px 18px;">
+                <div style="font-size:11.5px; color: oklch(52% 0.015 55); font-weight:600; text-transform:uppercase; letter-spacing:0.3px;">Visite oggi</div>
+                <div style="font-size:28px; font-weight:700; color: oklch(28% 0.02 50); margin-top:6px;">{{ stats.visiteOggi }}</div>
+              </div>
+              <div style="background:white; border:1px solid oklch(91% 0.012 55); border-radius:14px; padding: 16px 18px;">
+                <div style="font-size:11.5px; color: oklch(52% 0.015 55); font-weight:600; text-transform:uppercase; letter-spacing:0.3px;">Pazienti totali</div>
+                <div style="font-size:28px; font-weight:700; color: oklch(28% 0.02 50); margin-top:6px;">{{ stats.pazientiTotali }}</div>
+              </div>
+              <div style="background:white; border:1px solid oklch(91% 0.012 55); border-radius:14px; padding: 16px 18px;">
+                <div style="font-size:11.5px; color: oklch(52% 0.015 55); font-weight:600; text-transform:uppercase; letter-spacing:0.3px;">Prossimo appuntamento</div>
+                <div style="font-size:20px; font-weight:700; color: oklch(28% 0.02 50); margin-top:6px;">{{ stats.prossimoOra }}</div>
+                <div style="font-size:12px; color: oklch(52% 0.015 55); margin-top:2px;">{{ stats.prossimoPaziente }}</div>
+              </div>
+              <div style="background: linear-gradient(135deg, oklch(72% 0.14 55), oklch(60% 0.13 35)); border-radius:14px; padding: 16px 18px; color:white;">
+                <div style="font-size:11.5px; font-weight:600; text-transform:uppercase; letter-spacing:0.3px; opacity:0.9;">In attesa di note</div>
+                <div style="font-size:28px; font-weight:700; margin-top:6px;">{{ stats.noteInAttesa }}</div>
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1.4fr 1fr; gap: 20px; align-items:start;">
+
+              <!-- Calendar -->
+              <div style="background:white; border:1px solid oklch(91% 0.012 55); border-radius:14px; padding: 20px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
+                  <div style="font-size:15px; font-weight:700; color: oklch(28% 0.02 50);">{{ monthLabel }}</div>
+                  <div style="font-size:12px; color: oklch(55% 0.015 55);">Legenda: <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background: oklch(60% 0.13 35); margin: 0 4px 0 6px;"></span>appuntamenti</div>
+                </div>
+                <div style="display:grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 6px;">
+                  <sc-for list="{{ weekdayLabels }}" as="d" hint-placeholder-count="7">
+                    <div style="font-size:11px; font-weight:700; color: oklch(58% 0.015 55); text-align:center; padding: 4px 0;">{{ d }}</div>
+                  </sc-for>
+                </div>
+                <div style="display:grid; grid-template-columns: repeat(7, 1fr); gap: 6px;">
+                  <sc-for list="{{ calendarDays }}" as="day" hint-placeholder-count="35">
+                    <div style="{{ dayCellStyle(day) }}">
+                      <span style="font-size:13px; font-weight:{{ day.isToday ? 700 : 500 }};">{{ day.num }}</span>
+                      <sc-if value="{{ day.hasAppt }}" hint-placeholder-val="{{ false }}">
+                        <div style="width:5px; height:5px; border-radius:50%; background: oklch(60% 0.13 35); margin-top: 3px;"></div>
+                      </sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <!-- Upcoming appointments -->
+              <div style="background:white; border:1px solid oklch(91% 0.012 55); border-radius:14px; padding: 20px;">
+                <div style="font-size:15px; font-weight:700; color: oklch(28% 0.02 50); margin-bottom:14px;">Prossimi appuntamenti</div>
+                <div style="display:flex; flex-direction:column; gap: 10px;">
+                  <sc-for list="{{ appointments }}" as="appt" hint-placeholder-count="5">
+                    <div onClick="{{ () => navigate('patient', appt.patientId) }}" style="display:flex; align-items:center; gap:12px; padding: 10px; border-radius:10px; cursor:pointer; border: 1px solid oklch(93% 0.01 55);" onMouseOver="{{ (e) => e.currentTarget.style.background = 'oklch(96% 0.015 55)' }}" onMouseOut="{{ (e) => e.currentTarget.style.background = 'transparent' }}">
+                      <div style="width:48px; flex-shrink:0; text-align:center;">
+                        <div style="font-size:13px; font-weight:700; color: oklch(30% 0.02 50);">{{ appt.time }}</div>
+                      </div>
+                      <div style="width:1px; align-self:stretch; background: oklch(91% 0.012 55);"></div>
+                      <div style="flex:1; min-width:0;">
+                        <div style="font-size:13px; font-weight:600; color: oklch(28% 0.02 50); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ appt.patientName }}</div>
+                        <div style="font-size:11.5px; color: oklch(52% 0.015 55); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ appt.reason }}</div>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- PATIENT DETAIL -->
+        <sc-if value="{{ isPatient }}" hint-placeholder-val="{{ false }}">
+          <sc-if value="{{ selectedPatient }}" hint-placeholder-val="{{ true }}">
+            <div style="padding: 28px 32px 40px;">
+              <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom: 20px;">
+                <div style="display:flex; gap:16px; align-items:center;">
+                  <div style="width:64px; height:64px; border-radius:16px; background: linear-gradient(135deg, oklch(72% 0.14 55), oklch(60% 0.13 35)); display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:700; color:white;">{{ selectedPatient.initials }}</div>
+                  <div>
+                    <div style="font-size:21px; font-weight:700; color: oklch(26% 0.02 50);">{{ selectedPatient.name }}</div>
+                    <div style="font-size:13px; color: oklch(50% 0.015 55); margin-top:2px;">{{ selectedPatient.age }} anni · {{ selectedPatient.phone }} · {{ selectedPatient.diagnosis }}</div>
+                  </div>
+                </div>
+                <button onClick="{{ () => navigate('newvisit', selectedPatient.id) }}" style="height:38px; padding: 0 16px; border-radius:10px; border:none; background: oklch(60% 0.13 35); color:white; font-size:13px; font-weight:600; cursor:pointer;">+ Nuova visita</button>
+              </div>
+
+              <div style="display:grid; grid-template-columns: 320px 1fr; gap: 20px; align-items:start;">
+                <div style="background:white; border:1px solid oklch(91% 0.012 55); border-radius:14px; padding: 18px;">
+                  <div style="font-size:13px; font-weight:700; color: oklch(28% 0.02 50); margin-bottom:12px;">Anagrafica</div>
+                  <div style="display:flex; flex-direction:column; gap:10px;">
+                    <div style="{{ fieldRowStyle }}"><span style="{{ fieldLabelStyle }}">Data di nascita</span><span style="{{ fieldValueStyle }}">{{ selectedPatient.dob }}</span></div>
+                    <div style="{{ fieldRowStyle }}"><span style="{{ fieldLabelStyle }}">Telefono</span><span style="{{ fieldValueStyle }}">{{ selectedPatient.phone }}</span></div>
+                    <div style="{{ fieldRowStyle }}"><span style="{{ fieldLabelStyle }}">Email</span><span style="{{ fieldValueStyle }}">{{ selectedPatient.email }}</span></div>
+                    <div style="{{ fieldRowStyle }}"><span style="{{ fieldLabelStyle }}">Indirizzo</span><span style="{{ fieldValueStyle }}">{{ selectedPatient.address }}</span></div>
+                    <div style="{{ fieldRowStyle }}"><span style="{{ fieldLabelStyle }}">Diagnosi principale</span><span style="{{ fieldValueStyle }}">{{ selectedPatient.diagnosis }}</span></div>
+                    <div style="{{ fieldRowStyle }}"><span style="{{ fieldLabelStyle }}">Ultima visita</span><span style="{{ fieldValueStyle }}">{{ selectedPatient.lastVisit }}</span></div>
+                  </div>
+                </div>
+
+                <div style="background:white; border:1px solid oklch(91% 0.012 55); border-radius:14px; padding: 18px;">
+                  <div style="font-size:13px; font-weight:700; color: oklch(28% 0.02 50); margin-bottom:14px;">Storico visite e note cliniche</div>
+                  <div style="display:flex; flex-direction:column; gap: 14px; max-height: 560px; overflow-y:auto; padding-right:4px;">
+                    <sc-for list="{{ selectedPatient.visits }}" as="v" hint-placeholder-count="3">
+                      <div style="border:1px solid oklch(92% 0.012 55); border-radius:12px; padding: 14px 16px;">
+                        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px;">
+                          <div style="font-size:13px; font-weight:700; color: oklch(28% 0.02 50);">{{ v.date }}</div>
+                          <div style="font-size:11.5px; color: oklch(55% 0.13 35); font-weight:600; background: oklch(94% 0.03 40); padding: 3px 9px; border-radius:6px;">{{ v.motivo }}</div>
+                        </div>
+                        <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 10px;">
+                          <div style="background: oklch(97% 0.006 70); border-radius:8px; padding: 8px 10px;">
+                            <div style="font-size:10.5px; color: oklch(55% 0.015 55); text-transform:uppercase; letter-spacing:0.3px;">Acuità visiva OD / OS</div>
+                            <div style="font-size:13px; font-weight:600; color: oklch(30% 0.02 50); margin-top:2px;">{{ v.acuitaOD }} / {{ v.acuitaOS }}</div>
+                          </div>
+                          <div style="background: oklch(97% 0.006 70); border-radius:8px; padding: 8px 10px;">
+                            <div style="font-size:10.5px; color: oklch(55% 0.015 55); text-transform:uppercase; letter-spacing:0.3px;">Pressione (PIO) OD / OS</div>
+                            <div style="font-size:13px; font-weight:600; color: oklch(30% 0.02 50); margin-top:2px;">{{ v.pioOD }} / {{ v.pioOS }} mmHg</div>
+                          </div>
+                        </div>
+                        <div style="font-size:12.5px; line-height:1.5; color: oklch(38% 0.015 55);">{{ v.note }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </sc-if>
+
+        <!-- NEW VISIT -->
+        <sc-if value="{{ isNewVisit }}" hint-placeholder-val="{{ false }}">
+          <div style="padding: 28px 32px 40px; max-width: 760px;">
+            <div style="font-size: 21px; font-weight: 700; color: oklch(26% 0.02 50); margin-bottom: 4px;">Nuova visita</div>
+            <div style="font-size: 13px; color: oklch(50% 0.015 55); margin-bottom: 22px;">Registra una nuova visita oftalmologica</div>
+
+            <div style="background:white; border:1px solid oklch(91% 0.012 55); border-radius:14px; padding: 22px;">
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                <div>
+                  <div style="{{ formLabelStyle }}">Paziente</div>
+                  <select value="{{ newVisit.patientId }}" onChange="{{ onNewVisitPatientChange }}" style="{{ formInputStyle }}">
+                    <sc-for list="{{ patients }}" as="p" hint-placeholder-count="6">
+                      <option value="{{ p.id }}">{{ p.name }}</option>
+                    </sc-for>
+                  </select>
+                </div>
+                <div>
+                  <div style="{{ formLabelStyle }}">Motivo della visita</div>
+                  <input type="text" value="{{ newVisit.motivo }}" onChange="{{ onNewVisitField('motivo') }}" placeholder="es. Controllo di routine" style="{{ formInputStyle }}" />
+                </div>
+              </div>
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                <div>
+                  <div style="{{ formLabelStyle }}">Data</div>
+                  <input type="date" value="{{ newVisit.date }}" onChange="{{ onNewVisitField('date') }}" style="{{ formInputStyle }}" />
+                </div>
+                <div>
+                  <div style="{{ formLabelStyle }}">Ora</div>
+                  <input type="time" value="{{ newVisit.time }}" onChange="{{ onNewVisitField('time') }}" style="{{ formInputStyle }}" />
+                </div>
+              </div>
+
+              <div style="font-size:12px; font-weight:700; color: oklch(55% 0.13 35); text-transform:uppercase; letter-spacing:0.4px; margin: 4px 0 12px; padding-top: 10px; border-top: 1px solid oklch(93% 0.01 55);">Parametri oftalmologici</div>
+
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                <div>
+                  <div style="{{ formLabelStyle }}">Acuità visiva OD</div>
+                  <input type="text" value="{{ newVisit.acuitaOD }}" onChange="{{ onNewVisitField('acuitaOD') }}" placeholder="es. 10/10" style="{{ formInputStyle }}" />
+                </div>
+                <div>
+                  <div style="{{ formLabelStyle }}">Acuità visiva OS</div>
+                  <input type="text" value="{{ newVisit.acuitaOS }}" onChange="{{ onNewVisitField('acuitaOS') }}" placeholder="es. 10/10" style="{{ formInputStyle }}" />
+                </div>
+              </div>
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                <div>
+                  <div style="{{ formLabelStyle }}">Pressione oculare OD (mmHg)</div>
+                  <input type="text" value="{{ newVisit.pioOD }}" onChange="{{ onNewVisitField('pioOD') }}" placeholder="es. 16" style="{{ formInputStyle }}" />
+                </div>
+                <div>
+                  <div style="{{ formLabelStyle }}">Pressione oculare OS (mmHg)</div>
+                  <input type="text" value="{{ newVisit.pioOS }}" onChange="{{ onNewVisitField('pioOS') }}" placeholder="es. 16" style="{{ formInputStyle }}" />
+                </div>
+              </div>
+
+              <div style="margin-bottom: 20px;">
+                <div style="{{ formLabelStyle }}">Note cliniche</div>
+                <textarea value="{{ newVisit.note }}" onChange="{{ onNewVisitField('note') }}" rows="4" placeholder="Osservazioni, terapia prescritta, follow-up…" style="{{ formInputStyle }} resize:vertical; font-family:inherit;"></textarea>
+              </div>
+
+              <div style="display:flex; gap:10px; justify-content:flex-end;">
+                <button onClick="{{ () => navigate('dashboard') }}" style="height:40px; padding: 0 18px; border-radius:10px; border:1px solid oklch(88% 0.015 55); background: white; color: oklch(35% 0.02 50); font-size:13.5px; font-weight:600; cursor:pointer;">Annulla</button>
+                <button onClick="{{ saveVisit }}" style="height:40px; padding: 0 18px; border-radius:10px; border:none; background: oklch(60% 0.13 35); color:white; font-size:13.5px; font-weight:600; cursor:pointer;">Salva visita</button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const PATIENTS = [
+  { id: 'p1', name: 'Maria Bianchi', initials: 'MB', age: 58, dob: '12/03/1968', phone: '+39 340 112 3344', email: 'maria.bianchi@example.com', address: 'Via Roma 12, Milano', diagnosis: 'Glaucoma cronico', lastVisit: '05/07/2026',
+    visits: [
+      { date: '05/07/2026', motivo: 'Controllo glaucoma', acuitaOD: '8/10', acuitaOS: '7/10', pioOD: '19', pioOS: '21', note: 'Pressione lievemente elevata OS. Confermata terapia con colliri ipotonizzanti, controllo tra 3 mesi.' },
+      { date: '02/04/2026', motivo: 'Controllo di routine', acuitaOD: '9/10', acuitaOS: '8/10', pioOD: '17', pioOS: '18', note: 'Quadro stabile rispetto alla visita precedente.' },
+    ] },
+  { id: 'p2', name: 'Luca Verdi', initials: 'LV', age: 34, dob: '22/09/1991', phone: '+39 347 998 2211', email: 'luca.verdi@example.com', address: 'Via Dante 8, Milano', diagnosis: 'Miopia -3.5', lastVisit: '11/06/2026',
+    visits: [
+      { date: '11/06/2026', motivo: 'Rinnovo occhiali', acuitaOD: '10/10', acuitaOS: '10/10', pioOD: '14', pioOS: '15', note: 'Correzione confermata, prescritta nuova lente -3.5 OD/OS.' },
+    ] },
+  { id: 'p3', name: 'Anna Rossi', initials: 'AR', age: 45, dob: '02/11/1980', phone: '+39 333 445 6677', email: 'anna.rossi@example.com', address: 'Corso Buenos Aires 40, Milano', diagnosis: 'Cataratta iniziale OS', lastVisit: '28/06/2026',
+    visits: [
+      { date: '28/06/2026', motivo: 'Valutazione cataratta', acuitaOD: '9/10', acuitaOS: '6/10', pioOD: '16', pioOS: '16', note: 'Opacità lenticolare iniziale OS. Da monitorare, valutare intervento se peggioramento acuità.' },
+    ] },
+  { id: 'p4', name: 'Paolo Colombo', initials: 'PC', age: 67, dob: '14/01/1959', phone: '+39 328 776 5510', email: 'paolo.colombo@example.com', address: 'Viale Certosa 90, Milano', diagnosis: 'Degenerazione maculare', lastVisit: '15/07/2026',
+    visits: [
+      { date: '15/07/2026', motivo: 'Controllo AMD', acuitaOD: '5/10', acuitaOS: '6/10', pioOD: '15', pioOS: '15', note: 'Lieve progressione. Prescritta iniezione intravitreale, prossimo controllo a 4 settimane.' },
+    ] },
+  { id: 'p5', name: 'Giulia Ferrari', initials: 'GF', age: 29, dob: '30/05/1997', phone: '+39 351 220 9981', email: 'giulia.ferrari@example.com', address: 'Via Torino 5, Milano', diagnosis: 'Nessuna patologia rilevante', lastVisit: '20/05/2026',
+    visits: [
+      { date: '20/05/2026', motivo: 'Controllo di routine', acuitaOD: '10/10', acuitaOS: '10/10', pioOD: '14', pioOS: '14', note: 'Nessuna anomalia riscontrata.' },
+    ] },
+  { id: 'p6', name: 'Marco Esposito', initials: 'ME', age: 51, dob: '19/08/1974', phone: '+39 366 554 8823', email: 'marco.esposito@example.com', address: 'Via Padova 100, Milano', diagnosis: 'Retinopatia diabetica', lastVisit: '09/07/2026',
+    visits: [
+      { date: '09/07/2026', motivo: 'Controllo retinopatia', acuitaOD: '7/10', acuitaOS: '7/10', pioOD: '17', pioOS: '17', note: 'Microaneurismi stabili. Consigliato controllo glicemico stretto, follow-up a 6 mesi.' },
+    ] },
+];
+
+const APPOINTMENTS = [
+  { time: '09:00', patientId: 'p2', patientName: 'Luca Verdi', reason: 'Rinnovo occhiali' },
+  { time: '10:30', patientId: 'p5', patientName: 'Giulia Ferrari', reason: 'Controllo di routine' },
+  { time: '11:15', patientId: 'p6', patientName: 'Marco Esposito', reason: 'Controllo retinopatia' },
+  { time: '14:30', patientId: 'p1', patientName: 'Maria Bianchi', reason: 'Controllo glaucoma' },
+  { time: '16:00', patientId: 'p4', patientName: 'Paolo Colombo', reason: 'Controllo AMD' },
+];
+
+const APPT_DAYS = [3, 6, 7, 10, 14, 17, 19, 21, 24, 28];
+const WEEKDAYS = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
+
+class Component extends DCLogic {
+  state = {
+    screen: 'dashboard',
+    selectedPatientId: 'p1',
+    searchQuery: '',
+    newVisit: { patientId: 'p1', motivo: '', date: '2026-07-19', time: '09:00', acuitaOD: '', acuitaOS: '', pioOD: '', pioOS: '', note: '' },
+  };
+
+  navigate = (screen, patientId) => {
+    this.setState(s => ({ screen, selectedPatientId: patientId || s.selectedPatientId }));
+  };
+
+  onSearchChange = (e) => this.setState({ searchQuery: e.target.value });
+  onNewVisitPatientChange = (e) => this.setState(s => ({ newVisit: { ...s.newVisit, patientId: e.target.value } }));
+  onNewVisitField = (field) => (e) => this.setState(s => ({ newVisit: { ...s.newVisit, [field]: e.target.value } }));
+  saveVisit = () => this.setState({ screen: 'dashboard' });
+
+  buildCalendar() {
+    // July 2026: 1st is a Wednesday
+    const firstWeekday = 3; // 0=Mon
+    const daysInMonth = 31;
+    const today = 19;
+    const days = [];
+    for (let i = 0; i < firstWeekday; i++) days.push({ num: '', blank: true });
+    for (let d = 1; d <= daysInMonth; d++) {
+      days.push({ num: d, isToday: d === today, hasAppt: APPT_DAYS.includes(d), blank: false });
+    }
+    return days;
+  }
+
+  renderVals() {
+    const { screen, selectedPatientId, searchQuery, newVisit } = this.state;
+    const selectedPatient = PATIENTS.find(p => p.id === selectedPatientId) || null;
+    const q = searchQuery.trim().toLowerCase();
+    const filteredPatients = q ? PATIENTS.filter(p => p.name.toLowerCase().includes(q)) : PATIENTS;
+
+    const navBase = { display: 'flex', alignItems: 'center', gap: 10, padding: '8px 10px', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 600, color: 'oklch(35% 0.02 50)', margin: '1px 0' };
+    const navActive = { background: 'oklch(90% 0.04 40)', color: 'oklch(45% 0.13 35)' };
+
+    const fieldRowStyle = { display: 'flex', justifyContent: 'space-between', gap: 10, fontSize: 12.5 };
+    const fieldLabelStyle = { color: 'oklch(52% 0.015 55)' };
+    const fieldValueStyle = { color: 'oklch(30% 0.02 50)', fontWeight: 600, textAlign: 'right' };
+    const formLabelStyle = { fontSize: 12, fontWeight: 600, color: 'oklch(45% 0.02 50)', marginBottom: 6 };
+    const formInputStyle = { width: '100%', height: 40, border: '1px solid oklch(88% 0.015 55)', borderRadius: 9, padding: '0 12px', fontSize: 13.5, color: 'oklch(28% 0.02 50)', outline: 'none', boxSizing: 'border-box', background: 'oklch(99% 0.004 70)' };
+
+    return {
+      screen,
+      isDashboard: screen === 'dashboard',
+      isPatient: screen === 'patient',
+      isNewVisit: screen === 'newvisit',
+      navigate: this.navigate,
+      patients: filteredPatients,
+      appointments: APPOINTMENTS,
+      selectedPatient,
+      searchQuery,
+      onSearchChange: this.onSearchChange,
+      onNewVisitPatientChange: this.onNewVisitPatientChange,
+      onNewVisitField: this.onNewVisitField,
+      saveVisit: this.saveVisit,
+      newVisit,
+      todayLabel: 'ven 19 lug 2026',
+      todayFull: 'Venerdì 19 Luglio 2026',
+      monthLabel: 'Luglio 2026',
+      weekdayLabels: WEEKDAYS,
+      calendarDays: this.buildCalendar(),
+      stats: { visiteOggi: 8, pazientiTotali: 342, prossimoOra: '14:30', prossimoPaziente: 'Maria Bianchi', noteInAttesa: 3 },
+      navStyle: (s) => ({ ...navBase, ...(screen === s ? navActive : {}) }),
+      screenGroupStyle: (arr) => ({ ...navBase, ...(arr.includes(screen) ? navActive : {}) }),
+      navDotStyle: (s) => ({ width: 8, height: 8, borderRadius: '50%', background: screen === s ? 'oklch(58% 0.13 35)' : 'oklch(75% 0.02 55)', flexShrink: 0 }),
+      patientRowStyle: (id) => ({ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 8, cursor: 'pointer', background: selectedPatientId === id && screen === 'patient' ? 'oklch(91% 0.02 55)' : 'transparent' }),
+      dayCellStyle: (day) => ({
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+        height: 44, borderRadius: 9, color: day.blank ? 'transparent' : 'oklch(30% 0.02 50)',
+        background: day.isToday ? 'oklch(60% 0.13 35)' : 'transparent',
+        ...(day.isToday ? { color: 'white' } : {}),
+      }),
+      fieldRowStyle, fieldLabelStyle, fieldValueStyle, formLabelStyle, formInputStyle,
+    };
+  }
+}
+</script>
+</body>
+</html>

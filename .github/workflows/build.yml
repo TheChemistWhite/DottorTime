@@ -1,0 +1,65 @@
+name: Build installers
+
+# Builda l'installer di DottorTime per Windows, macOS e Linux.
+#
+# Si avvia in due casi:
+# - push di un tag che inizia per "v" (es. v1.0.0) -> build di release
+# - manualmente dalla tab "Actions" di GitHub (pulsante "Run workflow")
+#
+# Gli installer prodotti si scaricano come "artifact" dalla pagina della
+# run (tab Actions -> la run -> sezione "Artifacts" in fondo), non vengono
+# pubblicati automaticamente da nessuna parte.
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            script: dist:win
+            artifact: dottortime-windows
+          - os: macos-latest
+            script: dist:mac
+            artifact: dottortime-macos
+          - os: ubuntu-latest
+            script: dist:linux
+            artifact: dottortime-linux
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installa le dipendenze
+        run: npm ci
+
+      - name: Controllo tipi
+        run: npm run typecheck
+
+      - name: Build installer (${{ matrix.script }})
+        run: npm run ${{ matrix.script }}
+
+      - name: Carica gli artefatti
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: |
+            dist/*.exe
+            dist/*.dmg
+            dist/*.AppImage
+            dist/*.zip
+          if-no-files-found: warn

@@ -1,0 +1,131 @@
+<svg width="1280" height="800" viewBox="0 0 1280 800" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', -apple-system, Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="accentGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e78a45"/>
+      <stop offset="100%" stop-color="#c16048"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1280" height="800" fill="#fbf8f4"/>
+
+  <!-- Titlebar -->
+  <rect x="0" y="0" width="1280" height="46" fill="#f7f1eb"/>
+  <line x1="0" y1="46" x2="1280" y2="46" stroke="#e3d8d2" stroke-width="1"/>
+  <text x="20" y="28" font-size="13" font-weight="700" fill="#51453e">Agenda — Dr. Giuseppe Francione</text>
+  <text x="1260" y="28" font-size="12" fill="#796f69" text-anchor="end">ven 19 lug 2026</text>
+
+  <!-- Sidebar -->
+  <rect x="0" y="46" width="200" height="754" fill="#f8eee7"/>
+  <line x1="200" y1="46" x2="200" y2="800" stroke="#e3d8d2" stroke-width="1"/>
+
+  <rect x="14" y="62" width="34" height="34" rx="9" fill="url(#accentGrad3)"/>
+  <text x="31" y="84" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">GF</text>
+  <text x="58" y="80" font-size="12" font-weight="700" fill="#312620">Dr. G. Francione</text>
+  <text x="58" y="94" font-size="10" fill="#796f69">Oftalmologia</text>
+
+  <text x="14" y="122" font-size="10" font-weight="700" letter-spacing="0.5" fill="#827872">MENU</text>
+
+  <circle cx="24" cy="143" r="4" fill="#b9aba2"/>
+  <text x="34" y="147" font-size="12.5" font-weight="600" fill="#433831">Dashboard</text>
+
+  <circle cx="24" cy="171" r="4" fill="#b9aba2"/>
+  <text x="34" y="175" font-size="12.5" font-weight="600" fill="#433831">Pazienti</text>
+
+  <rect x="12" y="186" width="176" height="26" rx="8" fill="#f7d6ca"/>
+  <circle cx="24" cy="199" r="4" fill="#ba5a42"/>
+  <text x="34" y="203" font-size="12.5" font-weight="600" fill="#8f331c">Nuova visita</text>
+
+  <text x="14" y="230" font-size="10" font-weight="700" letter-spacing="0.5" fill="#827872">PAZIENTI RECENTI</text>
+
+  <g font-size="11.5" fill="#3c302a">
+    <g transform="translate(12,240)">
+      <rect x="6" y="2" width="20" height="20" rx="6" fill="#efd9cd"/>
+      <text x="16" y="16" font-size="9" font-weight="700" fill="#5f3e33" text-anchor="middle">MB</text>
+      <text x="34" y="15">Maria Bianchi</text>
+    </g>
+    <g transform="translate(12,268)">
+      <rect x="6" y="2" width="20" height="20" rx="6" fill="#efd9cd"/>
+      <text x="16" y="16" font-size="9" font-weight="700" fill="#5f3e33" text-anchor="middle">LV</text>
+      <text x="34" y="15">Luca Verdi</text>
+    </g>
+    <g transform="translate(12,296)">
+      <rect x="6" y="2" width="20" height="20" rx="6" fill="#efd9cd"/>
+      <text x="16" y="16" font-size="9" font-weight="700" fill="#5f3e33" text-anchor="middle">AR</text>
+      <text x="34" y="15">Anna Rossi</text>
+    </g>
+    <g transform="translate(12,324)">
+      <rect x="6" y="2" width="20" height="20" rx="6" fill="#efd9cd"/>
+      <text x="16" y="16" font-size="9" font-weight="700" fill="#5f3e33" text-anchor="middle">PC</text>
+      <text x="34" y="15">Paolo Colombo</text>
+    </g>
+    <g transform="translate(12,352)">
+      <rect x="6" y="2" width="20" height="20" rx="6" fill="#efd9cd"/>
+      <text x="16" y="16" font-size="9" font-weight="700" fill="#5f3e33" text-anchor="middle">GF</text>
+      <text x="34" y="15">Giulia Ferrari</text>
+    </g>
+    <g transform="translate(12,380)">
+      <rect x="6" y="2" width="20" height="20" rx="6" fill="#efd9cd"/>
+      <text x="16" y="16" font-size="9" font-weight="700" fill="#5f3e33" text-anchor="middle">ME</text>
+      <text x="34" y="15">Marco Esposito</text>
+    </g>
+  </g>
+
+  <text x="14" y="778" font-size="10.5" fill="#827872">v1.0 · Studio Oculistico</text>
+  <text x="176" y="778" font-size="13" fill="#827872">⚙</text>
+
+  <!-- Form -->
+  <text x="226" y="100" font-size="19" font-weight="700" fill="#2c211b">Nuova visita</text>
+  <text x="226" y="120" font-size="12.5" fill="#6a615b">Registra una nuova visita oftalmologica</text>
+
+  <rect x="226" y="144" width="660" height="560" rx="12" fill="#ffffff" stroke="#e8dfda"/>
+
+  <g font-size="11" font-weight="600" fill="#5f524c">
+    <text x="250" y="180">Paziente</text>
+    <text x="562" y="180">Motivo della visita</text>
+  </g>
+  <rect x="250" y="188" width="288" height="36" rx="9" fill="#fefbf9" stroke="#e0d5ce"/>
+  <text x="264" y="211" font-size="12.5" fill="#362b25">Maria Bianchi</text>
+  <text x="510" y="211" font-size="10" fill="#796f69">▾</text>
+  <rect x="562" y="188" width="300" height="36" rx="9" fill="#fefbf9" stroke="#e0d5ce"/>
+  <text x="576" y="211" font-size="12.5" fill="#362b25">Controllo di routine</text>
+
+  <g font-size="11" font-weight="600" fill="#5f524c">
+    <text x="250" y="248">Data</text>
+    <text x="562" y="248">Ora</text>
+  </g>
+  <rect x="250" y="256" width="288" height="36" rx="9" fill="#fefbf9" stroke="#e0d5ce"/>
+  <text x="264" y="279" font-size="12.5" fill="#362b25">19/07/2026</text>
+  <rect x="562" y="256" width="300" height="36" rx="9" fill="#fefbf9" stroke="#e0d5ce"/>
+  <text x="576" y="279" font-size="12.5" fill="#362b25">09:30</text>
+
+  <line x1="250" y1="308" x2="862" y2="308" stroke="#ede6e2"/>
+  <text x="250" y="330" font-size="11" font-weight="700" letter-spacing="0.4" fill="#b05139">PARAMETRI OFTALMOLOGICI</text>
+
+  <g font-size="11" font-weight="600" fill="#5f524c">
+    <text x="250" y="358">Acuità visiva OD</text>
+    <text x="562" y="358">Acuità visiva OS</text>
+  </g>
+  <rect x="250" y="366" width="288" height="36" rx="9" fill="#fefbf9" stroke="#e0d5ce"/>
+  <text x="264" y="389" font-size="12.5" fill="#362b25">9/10</text>
+  <rect x="562" y="366" width="300" height="36" rx="9" fill="#fefbf9" stroke="#e0d5ce"/>
+  <text x="576" y="389" font-size="12.5" fill="#362b25">8/10</text>
+
+  <g font-size="11" font-weight="600" fill="#5f524c">
+    <text x="250" y="426">Pressione oculare OD (mmHg)</text>
+    <text x="562" y="426">Pressione oculare OS (mmHg)</text>
+  </g>
+  <rect x="250" y="434" width="288" height="36" rx="9" fill="#fefbf9" stroke="#e0d5ce"/>
+  <text x="264" y="457" font-size="12.5" fill="#362b25">17</text>
+  <rect x="562" y="434" width="300" height="36" rx="9" fill="#fefbf9" stroke="#e0d5ce"/>
+  <text x="576" y="457" font-size="12.5" fill="#362b25">18</text>
+
+  <text x="250" y="496" font-size="11" font-weight="600" fill="#5f524c">Note cliniche</text>
+  <rect x="250" y="504" width="612" height="90" rx="9" fill="#fefbf9" stroke="#e0d5ce"/>
+  <text x="264" y="524" font-size="12" fill="#362b25">Quadro stabile. Consigliato controllo di routine tra 6</text>
+  <text x="264" y="542" font-size="12" fill="#362b25">mesi, nessuna variazione della terapia in corso.</text>
+
+  <rect x="672" y="650" width="90" height="36" rx="9" fill="#ffffff" stroke="#e0d5ce"/>
+  <text x="717" y="673" font-size="12.5" font-weight="600" fill="#433831" text-anchor="middle">Annulla</text>
+  <rect x="772" y="650" width="116" height="36" rx="9" fill="#c16048"/>
+  <text x="830" y="673" font-size="12.5" font-weight="600" fill="#ffffff" text-anchor="middle">Salva visita</text>
+</svg>
